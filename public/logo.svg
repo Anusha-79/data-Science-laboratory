@@ -1,0 +1,42 @@
+<svg width="1200" height="560" viewBox="0 0 1200 560" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gold1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffd75e"/>
+      <stop offset="1" stop-color="#ff9f1c"/>
+    </linearGradient>
+    <linearGradient id="red1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff3d33"/>
+      <stop offset="1" stop-color="#b10918"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="560" fill="#000000"/>
+
+  <g transform="translate(0,8)">
+    <g transform="translate(18,60)">
+      <path d="M150 50L120 150L190 190L260 150L220 40L150 50Z" fill="#ff4d2a" opacity="0.14"/>
+
+      <path d="M165 22C127 35 95 60 75 98C103 99 135 116 156 133C175 108 180 60 165 22Z" fill="url(#gold1)"/>
+      <path d="M90 93C42 100 12 128 5 172C43 173 81 152 102 128C119 109 119 94 90 93Z" fill="url(#gold1)"/>
+      <path d="M78 193C48 215 30 247 28 286C60 277 89 254 107 227C120 209 114 197 78 193Z" fill="url(#gold1)"/>
+      <path d="M145 212C117 245 110 286 118 328C152 322 183 297 203 270C218 249 217 224 145 212Z" fill="url(#gold1)"/>
+
+      <path d="M284 32C312 57 328 91 338 128C355 122 368 110 380 99C366 55 333 21 284 32Z" fill="url(#gold1)"/>
+      <path d="M360 90C392 111 422 141 439 179C417 185 390 193 362 206C345 178 344 137 360 90Z" fill="url(#gold1)"/>
+      <path d="M392 204C421 220 448 246 461 279C438 291 410 298 378 298C364 264 367 236 392 204Z" fill="url(#gold1)"/>
+      <path d="M204 262C213 237 225 216 246 201C280 220 302 247 314 285C281 304 247 314 205 304C193 293 195 278 204 262Z" fill="#f9d15a" opacity="0.22"/>
+
+      <path d="M218 278L290 318L350 280L364 365L288 413L214 372L190 316L218 278Z" fill="url(#red1)" stroke="#fddf7a" stroke-width="4"/>
+      <path d="M154 75L145 155L226 170L184 220L220 285L154 248L90 289L112 220L62 165L149 158L154 75Z" fill="#d5101f" stroke="#f6d976" stroke-width="8"/>
+      <path d="M163 150L188 110L208 160L258 152L206 204L226 254L163 220L111 263L135 195L87 152L160 157L163 150Z" fill="#fbd55d" opacity="0.12"/>
+    </g>
+
+    <g transform="translate(460,75)">
+      <text x="0" y="150" font-size="220" font-weight="900" font-family="Arial Black, Arial, sans-serif" fill="#f7d15d" stroke="#ff3b32" stroke-width="7">MBU</text>
+      <text x="30" y="235" font-size="58" font-weight="900" font-family="Arial Black, Arial, sans-serif" letter-spacing="3" fill="#fbefb0" stroke="#ff481f" stroke-width="2.5">MOHAN BABU</text>
+      <text x="120" y="300" font-size="53" font-weight="900" font-family="Arial Black, Arial, sans-serif" letter-spacing="5" fill="#fbefb0" stroke="#ff481f" stroke-width="2.5">UNIVERSITY</text>
+      <line x1="0" y1="332" x2="520" y2="332" stroke="#f6d35e" stroke-width="7"/>
+      <text x="110" y="398" font-size="33" font-weight="700" font-family="Arial, sans-serif" letter-spacing="4" fill="#f7d15d">DREAM. BELIEVE. ACHIEVE</text>
+    </g>
+  </g>
+</svg>
