@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowRight, BookOpen, FileText, FolderOpen, GraduationCap, Pencil, Save, Sparkles } from 'lucide-react';
+import { ArrowRight, BookOpen, FileText, FolderOpen, GraduationCap, Pencil, Save, Sparkles, Upload } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import StudentCard from '../components/StudentCard';
 import FacultyCard from '../components/FacultyCard';
@@ -43,6 +43,39 @@ function Home() {
     saveSiteData(formData);
     setIsEditorOpen(false);
     window.dispatchEvent(new Event('site-data-updated'));
+  };
+
+  const handleStudentPhotoUpload = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) {
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const imageDataUrl = typeof reader.result === 'string' ? reader.result : '';
+      if (imageDataUrl) {
+        setFormData((current) => ({
+          ...current,
+          student: {
+            ...current.student,
+            photo: imageDataUrl,
+          },
+        }));
+      }
+    };
+    reader.readAsDataURL(file);
+    event.target.value = '';
+  };
+
+  const resetStudentPhoto = () => {
+    setFormData((current) => ({
+      ...current,
+      student: {
+        ...current.student,
+        photo: '/student-photo.jpg',
+      },
+    }));
   };
 
   const openAboutMeEditor = () => {
@@ -178,7 +211,21 @@ function Home() {
                 Course ID
                 <input value={formData.student.courseId} onChange={(event) => handleFieldChange('student', 'courseId', event.target.value)} />
               </label>
-              <label>
+              <div className="full-width student-photo-edit-panel">
+                <div className="student-photo-preview-wrap">
+                  <img src={formData.student.photo} alt="Student preview" className="student-photo-preview" />
+                </div>
+                <div className="student-photo-tools">
+                  <label className="secondary-button small-button upload-button">
+                    <Upload size={15} /> Upload Photo
+                    <input type="file" accept="image/*" onChange={handleStudentPhotoUpload} />
+                  </label>
+                  <button type="button" className="secondary-button small-button" onClick={resetStudentPhoto}>
+                    Use Default Photo
+                  </button>
+                </div>
+              </div>
+              <label className="full-width">
                 Photo URL
                 <input value={formData.student.photo} onChange={(event) => handleFieldChange('student', 'photo', event.target.value)} />
               </label>

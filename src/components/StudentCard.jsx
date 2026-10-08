@@ -30,7 +30,12 @@ function StudentCard({ onEdit }) {
         </div>
 
         <div className="student-id-card-main">
-          <img src={student.photo} alt={student.name} className="student-id-photo" />
+          <div className="student-id-photo-wrap">
+            <img src={student.photo} alt={student.name} className="student-id-photo" />
+            <button type="button" className="student-photo-edit-button" onClick={onEdit} aria-label="Edit student photo">
+              <Pencil size={12} />
+            </button>
+          </div>
           <div className="student-id-details">
             <h4>{student.name}</h4>
             <p>{student.branch}</p>
