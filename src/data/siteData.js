@@ -1,7 +1,10 @@
+const defaultStudentPhoto = '/student-photo.jpg';
+const legacyStudentPhoto = 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=80';
+
 const defaultSiteData = {
   collegeName: 'Mohan Babu University',
   collegeLogo: '/logo.png',
-  laboratoryName: 'Data Science Laboratory',
+  laboratoryName: 'DS Laboratory',
   department: 'School of Computing',
   courseId: 'DS-101',
   academicYear: '2026-2027',
@@ -14,6 +17,11 @@ const defaultSiteData = {
     branch: 'CSE - Data Science',
     department: 'Data Science',
     courseId: 'DS-101',
+    photo: defaultStudentPhoto,
+    aboutMe: '',
+    leetcode: 'https://leetcode.com/yourusername',
+    linkedin: 'https://www.linkedin.com/in/yourusername',
+    github: 'https://github.com/yourusername',
   },
   faculty: {
     name: 'FACULTY NAME',
@@ -34,6 +42,11 @@ const storageKey = 'ds-lab-site-data';
 
 function normalizeString(value, fallback) {
   return value === undefined || value === null || value === '' ? fallback : value;
+}
+
+function normalizeLaboratoryName(value) {
+  const name = normalizeString(value, defaultSiteData.laboratoryName);
+  return name === 'Data Science Laboratory' ? defaultSiteData.laboratoryName : name;
 }
 
 function normalizeLogoUrl(value) {
@@ -57,13 +70,35 @@ function normalizeLogoUrl(value) {
   return fallback;
 }
 
+function normalizeStudentPhoto(value) {
+  if (typeof value !== 'string') {
+    return defaultStudentPhoto;
+  }
+
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return defaultStudentPhoto;
+  }
+
+  if (trimmed === legacyStudentPhoto) {
+    return defaultStudentPhoto;
+  }
+
+  const validPatterns = [/^\//, /^https?:\/\//i, /^data:/i];
+  if (validPatterns.some((pattern) => pattern.test(trimmed))) {
+    return trimmed;
+  }
+
+  return defaultStudentPhoto;
+}
+
 function normalizeSiteData(data = {}) {
   const merged = {
     ...defaultSiteData,
     ...data,
     collegeLogo: normalizeLogoUrl(data.collegeLogo),
     collegeName: normalizeString(data.collegeName, defaultSiteData.collegeName),
-    laboratoryName: normalizeString(data.laboratoryName, defaultSiteData.laboratoryName),
+    laboratoryName: normalizeLaboratoryName(data.laboratoryName),
     department: normalizeString(data.department, defaultSiteData.department),
     academicYear: normalizeString(data.academicYear, defaultSiteData.academicYear),
     semester: normalizeString(data.semester, defaultSiteData.semester),
@@ -77,6 +112,11 @@ function normalizeSiteData(data = {}) {
       branch: normalizeString((data.student || {}).branch, defaultSiteData.student.branch),
       department: normalizeString((data.student || {}).department, defaultSiteData.student.department),
       courseId: normalizeString((data.student || {}).courseId, defaultSiteData.student.courseId),
+      photo: normalizeStudentPhoto((data.student || {}).photo),
+      aboutMe: normalizeString((data.student || {}).aboutMe, defaultSiteData.student.aboutMe),
+      leetcode: normalizeString((data.student || {}).leetcode, defaultSiteData.student.leetcode),
+      linkedin: normalizeString((data.student || {}).linkedin, defaultSiteData.student.linkedin),
+      github: normalizeString((data.student || {}).github, defaultSiteData.student.github),
     },
     faculty: {
       ...defaultSiteData.faculty,

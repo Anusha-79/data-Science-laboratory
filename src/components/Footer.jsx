@@ -17,7 +17,7 @@ function Footer() {
           <div className="footer-brand">{siteData.collegeName}</div>
           <p>{siteData.department}</p>
           <p>Data Science</p>
-          <p>{siteData.laboratoryName}</p>
+          <p>DS Laboratory</p>
         </div>
 
         <div>
@@ -31,7 +31,7 @@ function Footer() {
           </ul>
         </div>
       </div>
-      <div className="footer-bottom">© 2026 Data Science Subject Laboratory</div>
+      <div className="footer-bottom">© 2026 DS Laboratory · {siteData.collegeName}</div>
     </footer>
   );
 }

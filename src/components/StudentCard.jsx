@@ -1,26 +1,58 @@
-import { UserRound } from 'lucide-react';
+import { IdCard, Pencil } from 'lucide-react';
 import { siteData } from '../data/siteData';
 
-function StudentCard() {
+function StudentCard({ onEdit }) {
+  const student = siteData.student;
+
   return (
-    <div className="info-card accent-blue">
+    <div className="info-card accent-blue student-card-shell">
       <div className="card-header-row">
         <div className="card-icon soft-blue">
-          <UserRound size={18} />
+          <IdCard size={18} />
         </div>
         <div>
           <p className="eyebrow">Student Information</p>
-          <h3>Student Details</h3>
+          <h3>Student ID Card</h3>
+        </div>
+        <button type="button" className="secondary-button small-button" onClick={onEdit}>
+          <Pencil size={15} /> Edit
+        </button>
+      </div>
+
+      <div className="student-id-card">
+        <div className="student-id-card-header">
+          <img src={siteData.collegeLogo} alt="" className="student-id-logo" />
+          <div className="student-id-college">
+            <strong>{siteData.collegeName}</strong>
+            <span>{siteData.department}</span>
+          </div>
+          <span className="student-id-label">STUDENT ID</span>
+        </div>
+
+        <div className="student-id-card-main">
+          <img src={student.photo} alt={student.name} className="student-id-photo" />
+          <div className="student-id-details">
+            <h4>{student.name}</h4>
+            <p>{student.branch}</p>
+            <div className="student-id-fields">
+              <div><span>Roll No</span><strong>{student.rollNo}</strong></div>
+              <div><span>Section</span><strong>{student.section}</strong></div>
+              <div><span>Department</span><strong>{student.department}</strong></div>
+              <div><span>Course ID</span><strong>{student.courseId}</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <div className="student-id-card-footer">
+          <span>{siteData.laboratoryName}</span>
+          <span>{siteData.academicYear} · {siteData.semester}</span>
         </div>
       </div>
 
-      <div className="info-grid">
-        <div><span>Student Name</span><strong>{siteData.student.name}</strong></div>
-        <div><span>Roll No</span><strong>{siteData.student.rollNo}</strong></div>
-        <div><span>Section</span><strong>{siteData.student.section}</strong></div>
-        <div><span>Branch</span><strong>{siteData.student.branch}</strong></div>
-        <div><span>Department</span><strong>{siteData.student.department}</strong></div>
-        <div><span>Course ID</span><strong>{siteData.student.courseId}</strong></div>
+      <div className="social-links">
+        <a href={student.leetcode} target="_blank" rel="noreferrer">LeetCode</a>
+        <a href={student.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+        <a href={student.github} target="_blank" rel="noreferrer">GitHub</a>
       </div>
     </div>
   );

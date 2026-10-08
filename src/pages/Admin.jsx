@@ -98,6 +98,31 @@ function Admin() {
               Student Course ID
               <input value={formData.student.courseId} onChange={(event) => handleFieldChange('student', 'courseId', event.target.value)} />
             </label>
+            <label>
+              Student Photo URL
+              <input value={formData.student.photo} onChange={(event) => handleFieldChange('student', 'photo', event.target.value)} />
+            </label>
+            <label className="full-width">
+              About Me (Resume)
+              <textarea
+                value={formData.student.aboutMe}
+                onChange={(event) => handleFieldChange('student', 'aboutMe', event.target.value)}
+                placeholder="Write a short introduction about your skills, interests, and career goals."
+                rows={4}
+              />
+            </label>
+            <label>
+              LeetCode URL
+              <input value={formData.student.leetcode} onChange={(event) => handleFieldChange('student', 'leetcode', event.target.value)} />
+            </label>
+            <label>
+              LinkedIn URL
+              <input value={formData.student.linkedin} onChange={(event) => handleFieldChange('student', 'linkedin', event.target.value)} />
+            </label>
+            <label>
+              GitHub URL
+              <input value={formData.student.github} onChange={(event) => handleFieldChange('student', 'github', event.target.value)} />
+            </label>
           </div>
 
           <div className="form-section-title">Faculty Details</div>

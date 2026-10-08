@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowRight, BookOpen, FolderOpen, GraduationCap, Sparkles } from 'lucide-react';
+import { ArrowRight, BookOpen, FileText, FolderOpen, GraduationCap, Pencil, Save, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import StudentCard from '../components/StudentCard';
 import FacultyCard from '../components/FacultyCard';
@@ -9,6 +9,8 @@ import { modules } from '../data/modules';
 
 function Home() {
   const [isEditorOpen, setIsEditorOpen] = useState(false);
+  const [isAboutMeEditing, setIsAboutMeEditing] = useState(false);
+  const [aboutMeDraft, setAboutMeDraft] = useState(siteData.student.aboutMe);
   const [formData, setFormData] = useState({
     ...siteData,
     student: { ...siteData.student },
@@ -43,13 +45,27 @@ function Home() {
     window.dispatchEvent(new Event('site-data-updated'));
   };
 
+  const openAboutMeEditor = () => {
+    setAboutMeDraft(siteData.student.aboutMe);
+    setIsAboutMeEditing(true);
+  };
+
+  const handleAboutMeSave = (event) => {
+    event.preventDefault();
+    saveSiteData({
+      student: { ...siteData.student, aboutMe: aboutMeDraft },
+    });
+    setIsAboutMeEditing(false);
+    window.dispatchEvent(new Event('site-data-updated'));
+  };
+
   return (
     <div className="page-section">
       <section className="hero-panel">
         <div className="hero-content">
           <span className="hero-tag">{siteData.department}</span>
-          <h1>{siteData.collegeName}</h1>
-          <h2>{siteData.laboratoryName}</h2>
+          <h1>{siteData.laboratoryName}</h1>
+          <h2>{siteData.collegeName}</h2>
           <p>{siteData.collegeTag}</p>
           <div className="hero-actions">
             <Link to="/modules" className="primary-button">
@@ -162,6 +178,31 @@ function Home() {
                 Course ID
                 <input value={formData.student.courseId} onChange={(event) => handleFieldChange('student', 'courseId', event.target.value)} />
               </label>
+              <label>
+                Photo URL
+                <input value={formData.student.photo} onChange={(event) => handleFieldChange('student', 'photo', event.target.value)} />
+              </label>
+              <label className="full-width">
+                About Me (Resume)
+                <textarea
+                  value={formData.student.aboutMe}
+                  onChange={(event) => handleFieldChange('student', 'aboutMe', event.target.value)}
+                  placeholder="Write a short introduction about your skills, interests, and career goals."
+                  rows={4}
+                />
+              </label>
+              <label>
+                LeetCode URL
+                <input value={formData.student.leetcode} onChange={(event) => handleFieldChange('student', 'leetcode', event.target.value)} />
+              </label>
+              <label>
+                LinkedIn URL
+                <input value={formData.student.linkedin} onChange={(event) => handleFieldChange('student', 'linkedin', event.target.value)} />
+              </label>
+              <label>
+                GitHub URL
+                <input value={formData.student.github} onChange={(event) => handleFieldChange('student', 'github', event.target.value)} />
+              </label>
             </div>
 
             <div className="form-section-title">Faculty Details</div>
@@ -209,8 +250,52 @@ function Home() {
       )}
 
       <section className="cards-grid two-up">
-        <StudentCard />
+        <StudentCard onEdit={openEditor} />
         <FacultyCard />
+      </section>
+
+      <section className="info-card resume-about-panel">
+        <div className="section-heading-row">
+          <div className="card-header-row">
+            <div className="card-icon soft-blue">
+              <FileText size={18} />
+            </div>
+            <div>
+              <p className="eyebrow">Resume Profile</p>
+              <h3>About Me</h3>
+            </div>
+          </div>
+          {!isAboutMeEditing && (
+            <button type="button" className="secondary-button small-button" onClick={openAboutMeEditor}>
+            <Pencil size={15} /> Edit About Me
+            </button>
+          )}
+        </div>
+        {isAboutMeEditing ? (
+          <form className="about-me-editor" onSubmit={handleAboutMeSave}>
+            <label className="about-me-label" htmlFor="about-me-draft">About Me</label>
+            <textarea
+              id="about-me-draft"
+              value={aboutMeDraft}
+              onChange={(event) => setAboutMeDraft(event.target.value)}
+              placeholder="Write a short introduction about your skills, interests, and career goals."
+              rows={5}
+              autoFocus
+            />
+            <div className="form-actions">
+              <button type="submit" className="primary-button">
+                <Save size={16} /> Save About Me
+              </button>
+              <button type="button" className="secondary-button" onClick={() => setIsAboutMeEditing(false)}>
+                Cancel
+              </button>
+            </div>
+          </form>
+        ) : (
+          <p className="resume-about-text">
+            {siteData.student.aboutMe || 'Add a short introduction about your skills, interests, and career goals using Edit About Me.'}
+          </p>
+        )}
       </section>
 
       <section className="course-panel info-card">

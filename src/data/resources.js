@@ -4,15 +4,17 @@ export const resources = [
     items: [
       {
         name: 'Module Notes',
-        description: 'Short notes covering key topics from each data science module.',
-        type: 'PDF',
+        description: 'Read the data science modules as an interactive, page-turning book. Includes links to official references.',
+        type: 'Interactive book',
         href: '/resources/module-notes-placeholder.txt',
+        bookId: 'module-notes',
       },
       {
         name: 'Lab Notes',
-        description: 'Practical notes for in-class experimentation and observations.',
-        type: 'Text',
+        description: 'A practical lab checklist and report template with links to official documentation.',
+        type: 'Interactive book',
         href: '/resources/lab-notes-placeholder.txt',
+        bookId: 'lab-notes',
       },
     ],
   },

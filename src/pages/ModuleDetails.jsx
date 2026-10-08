@@ -1,9 +1,12 @@
-import { ArrowLeft, Download } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowLeft, BookOpen } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
-import DownloadButton from '../components/DownloadButton';
+import BookReader from '../components/BookReader';
 import { modules } from '../data/modules';
+import { noteBooks } from '../data/notes';
 
 function ModuleDetails() {
+  const [isBookOpen, setIsBookOpen] = useState(false);
   const { id } = useParams();
   const module = modules.find((entry) => String(entry.id) === String(id));
 
@@ -65,14 +68,19 @@ function ModuleDetails() {
         </div>
 
         <div className="detail-actions">
-          <DownloadButton
-            label="Download Module"
-            href={module.downloadLink || '/resources/module-placeholder.txt'}
-            filename={`module-${String(module.number).padStart(2, '0')}.pdf`}
-            className="primary-button"
-          />
+          <button type="button" className="primary-button" onClick={() => setIsBookOpen(true)}>
+            <BookOpen size={16} /> Read Module Notes
+          </button>
         </div>
       </div>
+      {isBookOpen && (
+        <BookReader
+          key={module.id}
+          book={noteBooks['module-notes']}
+          initialPage={module.number === 4 ? 5 : module.number === 5 ? 6 : module.number}
+          onClose={() => setIsBookOpen(false)}
+        />
+      )}
     </div>
   );
 }
