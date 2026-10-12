@@ -10,7 +10,7 @@ function DownloadButton({ label, href, filename, className = 'primary-button', f
       className={className}
       download={!isExternal ? filename || 'download.txt' : undefined}
       target={isExternal ? '_blank' : undefined}
-      rel={isExternal ? 'noreferrer' : undefined}
+      rel={isExternal ? 'noopener noreferrer' : undefined}
     >
       <Download size={15} />
       {label}

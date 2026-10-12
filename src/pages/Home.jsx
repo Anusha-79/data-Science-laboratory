@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowRight, BookOpen, FileText, FolderOpen, GraduationCap, Pencil, Save, Sparkles, Upload } from 'lucide-react';
+import { ArrowRight, BookOpen, Download, ExternalLink, FileText, FolderOpen, GraduationCap, Pencil, Printer, Save, Sparkles, Upload } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import StudentCard from '../components/StudentCard';
 import FacultyCard from '../components/FacultyCard';
@@ -14,6 +14,7 @@ function Home() {
   const [formData, setFormData] = useState({
     ...siteData,
     student: { ...siteData.student },
+    resume: { ...siteData.resume },
     faculty: { ...siteData.faculty },
     course: { ...siteData.course },
   });
@@ -22,6 +23,7 @@ function Home() {
     setFormData({
       ...siteData,
       student: { ...siteData.student },
+      resume: { ...siteData.resume },
       faculty: { ...siteData.faculty },
       course: { ...siteData.course },
     });
@@ -36,6 +38,56 @@ function Home() {
         [key]: value,
       },
     }));
+  };
+
+  const handlePrintResume = () => {
+    document.body.dataset.printTarget = 'resume';
+    window.addEventListener('afterprint', () => {
+      delete document.body.dataset.printTarget;
+    }, { once: true });
+    window.print();
+  };
+
+  const handleResumeDownload = () => {
+    const resume = siteData.resume;
+    const content = [
+      siteData.student.name,
+      `${resume.degree} | ${resume.specialization}`,
+      `${resume.institution}, ${resume.location} | Expected graduation: ${resume.graduation}`,
+      '',
+      'PROFILE',
+      resume.summary,
+      '',
+      'EDUCATION',
+      `${resume.degree}, ${resume.specialization}`,
+      `${resume.institution}, ${resume.location}`,
+      `Expected graduation: ${resume.graduation}`,
+      ...(resume.email ? [`Email: ${resume.email}`] : ['Contact email: Add in Admin before sharing']),
+      ...(resume.phone ? [`Phone: ${resume.phone}`] : []),
+      '',
+      'TECHNICAL SKILLS',
+      resume.skills.join(', '),
+      '',
+      'PROJECT',
+      resume.project,
+      '',
+      'AREAS OF INTEREST',
+      resume.interests.join(', '),
+      '',
+      'PROFESSIONAL GOAL',
+      resume.goal,
+      ...(siteData.student.github ? ['', `GitHub: ${siteData.student.github}`] : []),
+      ...(siteData.student.linkedin ? [`LinkedIn: ${siteData.student.linkedin}`] : []),
+    ].join('\n');
+    const file = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(file);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${siteData.student.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-resume.txt`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
 
   const handleSave = (event) => {
@@ -343,6 +395,91 @@ function Home() {
             {siteData.student.aboutMe || 'Add a short introduction about your skills, interests, and career goals using Edit About Me.'}
           </p>
         )}
+      </section>
+
+      <section className="resume-sheet" aria-labelledby="resume-heading">
+        <div className="resume-heading-row">
+          <div>
+            <p className="eyebrow">Academic Profile</p>
+            <h2 id="resume-heading">{siteData.student.name}</h2>
+            <p className="resume-subheading">{siteData.resume.degree} · {siteData.resume.specialization}</p>
+          </div>
+          <div className="resume-actions no-print">
+            <button type="button" className="secondary-button small-button" onClick={handleResumeDownload}>
+              <Download size={15} /> Download resume
+            </button>
+            <button type="button" className="primary-button small-button" onClick={handlePrintResume}>
+              <Printer size={15} /> Print / Save as PDF
+            </button>
+          </div>
+        </div>
+
+        <div className="resume-content-grid">
+          <div className="resume-main-column">
+            <section className="resume-block">
+              <h3>Professional Summary</h3>
+              <p>{siteData.resume.summary}</p>
+              <p className="resume-goal">{siteData.resume.goal}</p>
+            </section>
+            <section className="resume-block">
+              <h3>Education</h3>
+              <div className="resume-entry">
+                <strong>{siteData.resume.degree}</strong>
+                <span>{siteData.resume.specialization}</span>
+                <span>{siteData.resume.institution} · {siteData.resume.location}</span>
+                <span>Expected graduation: {siteData.resume.graduation}</span>
+              </div>
+            </section>
+            <section className="resume-block">
+              <h3>Project</h3>
+              <div className="resume-entry">
+                <strong>{siteData.resume.project}</strong>
+                <span>Academic laboratory portal featuring course modules, practical experiments, learning resources, and interactive code examples.</span>
+              </div>
+            </section>
+          </div>
+          <aside className="resume-side-column">
+            <section className="resume-block">
+              <h3>Contact</h3>
+              <div className="resume-entry">
+                {siteData.resume.email && <span>{siteData.resume.email}</span>}
+                {siteData.resume.phone && <span>{siteData.resume.phone}</span>}
+                {!siteData.resume.email && !siteData.resume.phone && (
+                  <span>Contact information not provided. Add an email in Admin before sharing your resume.</span>
+                )}
+              </div>
+            </section>
+            <section className="resume-block">
+              <h3>Technical Skills</h3>
+              <ul className="resume-chip-list">
+                {siteData.resume.skills.map((skill) => <li key={skill}>{skill}</li>)}
+              </ul>
+            </section>
+            <section className="resume-block">
+              <h3>Areas of Interest</h3>
+              <ul className="resume-interest-list">
+                {siteData.resume.interests.map((interest) => <li key={interest}>{interest}</li>)}
+              </ul>
+            </section>
+            {(siteData.student.github || siteData.student.linkedin) && (
+              <section className="resume-block">
+                <h3>Professional Links</h3>
+                <div className="resume-profile-links">
+                  {siteData.student.github && (
+                    <a href={siteData.student.github} target="_blank" rel="noopener noreferrer">
+                      GitHub <ExternalLink size={14} aria-hidden="true" />
+                    </a>
+                  )}
+                  {siteData.student.linkedin && (
+                    <a href={siteData.student.linkedin} target="_blank" rel="noopener noreferrer">
+                      LinkedIn <ExternalLink size={14} aria-hidden="true" />
+                    </a>
+                  )}
+                </div>
+              </section>
+            )}
+          </aside>
+        </div>
       </section>
 
       <section className="course-panel info-card">

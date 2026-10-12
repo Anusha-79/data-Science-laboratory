@@ -1,10 +1,16 @@
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, ExternalLink } from 'lucide-react';
 
 function ToolCard({ tool, iconMap }) {
   const Icon = iconMap[tool.icon] || iconMap.Python;
 
   return (
-    <div className="tool-card card-hover">
+    <a
+      className="tool-card card-hover tool-card-link"
+      href={tool.website}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Visit ${tool.name} official website (opens in a new tab)`}
+    >
       <div className="tool-card-head">
         <div className="tool-icon-wrap">
           <Icon size={22} />
@@ -20,10 +26,10 @@ function ToolCard({ tool, iconMap }) {
         <strong>{tool.use}</strong>
       </div>
 
-      <a href={tool.website} target="_blank" rel="noreferrer" className="secondary-button">
-        Official Website <ArrowUpRight size={15} />
-      </a>
-    </div>
+      <span className="secondary-button tool-card-action">
+        Visit Official Website <ExternalLink size={15} aria-hidden="true" /> <ArrowUpRight size={15} aria-hidden="true" />
+      </span>
+    </a>
   );
 }
 

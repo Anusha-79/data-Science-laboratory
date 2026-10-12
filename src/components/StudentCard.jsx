@@ -55,9 +55,9 @@ function StudentCard({ onEdit }) {
       </div>
 
       <div className="social-links">
-        <a href={student.leetcode} target="_blank" rel="noreferrer">LeetCode</a>
-        <a href={student.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
-        <a href={student.github} target="_blank" rel="noreferrer">GitHub</a>
+        {student.leetcode && <a href={student.leetcode} target="_blank" rel="noopener noreferrer">LeetCode</a>}
+        {student.linkedin && <a href={student.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>}
+        {student.github && <a href={student.github} target="_blank" rel="noopener noreferrer">GitHub</a>}
       </div>
     </div>
   );

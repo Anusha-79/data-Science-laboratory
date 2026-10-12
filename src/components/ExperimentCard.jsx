@@ -11,7 +11,7 @@ function ExperimentCard({ experiment }) {
             alt={`${experiment.title} thumbnail`}
           />
         ) : (
-          <a className="thumb-placeholder" href={experiment.youtubeUrl} target="_blank" rel="noreferrer">
+          <a className="thumb-placeholder" href={experiment.youtubeUrl} target="_blank" rel="noopener noreferrer">
             <PlayCircle size={26} />
             <span>Watch on YouTube</span>
           </a>

@@ -183,7 +183,7 @@ result
           <Trash2 size={15} /> Clear Output
         </button>
         {colabUrl && (
-          <a href={colabUrl} target="_blank" rel="noreferrer" className="secondary-button small-button">
+          <a href={colabUrl} target="_blank" rel="noopener noreferrer" className="secondary-button small-button">
             Open in Google Colab
           </a>
         )}

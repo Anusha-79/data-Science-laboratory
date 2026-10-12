@@ -86,7 +86,7 @@ function BookReader({ book, initialPage = 0, onClose }) {
                   <div className="book-sources">
                     <strong>Further reading</strong>
                     {page.sources.map((source) => (
-                      <a key={source.url} href={source.url} target="_blank" rel="noreferrer">
+                      <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer">
                         {source.label}
                       </a>
                     ))}

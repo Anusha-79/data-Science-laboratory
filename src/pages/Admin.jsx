@@ -7,6 +7,7 @@ function Admin() {
   const [formData, setFormData] = useState({
     ...siteData,
     student: { ...siteData.student },
+    resume: { ...siteData.resume },
     faculty: { ...siteData.faculty },
     course: { ...siteData.course },
   });
@@ -134,6 +135,72 @@ function Admin() {
             <label>
               Designation
               <input value={formData.faculty.designation} onChange={(event) => handleFieldChange('faculty', 'designation', event.target.value)} />
+            </label>
+          </div>
+
+          <div className="form-section-title">Resume Profile</div>
+          <div className="form-grid">
+            <label>
+              Degree
+              <input value={formData.resume.degree} onChange={(event) => handleFieldChange('resume', 'degree', event.target.value)} />
+            </label>
+            <label>
+              Specialization
+              <input value={formData.resume.specialization} onChange={(event) => handleFieldChange('resume', 'specialization', event.target.value)} />
+            </label>
+            <label>
+              Institution
+              <input value={formData.resume.institution} onChange={(event) => handleFieldChange('resume', 'institution', event.target.value)} />
+            </label>
+            <label>
+              Institution Location
+              <input value={formData.resume.location} onChange={(event) => handleFieldChange('resume', 'location', event.target.value)} />
+            </label>
+            <label>
+              Expected Graduation
+              <input value={formData.resume.graduation} onChange={(event) => handleFieldChange('resume', 'graduation', event.target.value)} />
+            </label>
+            <label>
+              Contact Email
+              <input type="email" value={formData.resume.email} onChange={(event) => handleFieldChange('resume', 'email', event.target.value)} placeholder="Add a professional email before publishing" />
+            </label>
+            <label>
+              Contact Phone (optional)
+              <input type="tel" value={formData.resume.phone} onChange={(event) => handleFieldChange('resume', 'phone', event.target.value)} placeholder="Add a phone number if you want it public" />
+            </label>
+            <label>
+              Project Title
+              <input value={formData.resume.project} onChange={(event) => handleFieldChange('resume', 'project', event.target.value)} />
+            </label>
+            <label className="full-width">
+              Professional Summary
+              <textarea
+                value={formData.resume.summary}
+                onChange={(event) => handleFieldChange('resume', 'summary', event.target.value)}
+                rows={4}
+              />
+            </label>
+            <label className="full-width">
+              Technical Skills (comma separated)
+              <input
+                value={formData.resume.skills.join(', ')}
+                onChange={(event) => handleFieldChange('resume', 'skills', event.target.value.split(',').map((item) => item.trim()).filter(Boolean))}
+              />
+            </label>
+            <label className="full-width">
+              Areas of Interest (comma separated)
+              <input
+                value={formData.resume.interests.join(', ')}
+                onChange={(event) => handleFieldChange('resume', 'interests', event.target.value.split(',').map((item) => item.trim()).filter(Boolean))}
+              />
+            </label>
+            <label className="full-width">
+              Professional Goal
+              <textarea
+                value={formData.resume.goal}
+                onChange={(event) => handleFieldChange('resume', 'goal', event.target.value)}
+                rows={3}
+              />
             </label>
           </div>
 

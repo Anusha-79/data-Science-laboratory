@@ -11,17 +11,31 @@ const defaultSiteData = {
   semester: 'Semester 5',
   collegeTag: 'A professional academic laboratory portal',
   student: {
-    name: 'YOUR STUDENT NAME',
-    rollNo: 'YOUR ROLL NUMBER',
+    name: 'Munga Anusha',
+    rollNo: 'Not provided',
     section: 'A',
     branch: 'CSE - Data Science',
     department: 'Data Science',
     courseId: 'DS-101',
     photo: defaultStudentPhoto,
-    aboutMe: '',
-    leetcode: 'https://leetcode.com/yourusername',
-    linkedin: 'https://www.linkedin.com/in/yourusername',
-    github: 'https://github.com/yourusername',
+    aboutMe: 'I am a B.Tech Computer Science and Engineering student specializing in Data Science at Mohan Babu University. I am interested in Python development and software engineering and data-focused internship opportunities.',
+    leetcode: '',
+    linkedin: '',
+    github: '',
+  },
+  resume: {
+    degree: 'B.Tech in Computer Science and Engineering',
+    specialization: 'Data Science',
+    institution: 'Mohan Babu University',
+    location: 'Tirupati, Andhra Pradesh',
+    graduation: '2028',
+    email: '',
+    phone: '',
+    summary: 'Computer Science and Engineering student specializing in Data Science at Mohan Babu University. Building a strong foundation in programming, data structures, and data analysis, with an interest in applying these skills to practical software and data projects.',
+    skills: ['Python', 'Java', 'C', 'MS Excel'],
+    interests: ['Data Science', 'Python Development', 'Data Structures and Algorithms', 'Machine Learning'],
+    project: 'Data Science Subject Laboratory',
+    goal: 'Seeking software engineering and data-focused internship opportunities.',
   },
   faculty: {
     name: 'FACULTY NAME',
@@ -92,7 +106,24 @@ function normalizeStudentPhoto(value) {
   return defaultStudentPhoto;
 }
 
+function normalizeProfileUrl(value) {
+  if (typeof value !== 'string') {
+    return '';
+  }
+
+  const trimmed = value.trim();
+  if (!trimmed || /yourusername/i.test(trimmed)) {
+    return '';
+  }
+
+  return trimmed;
+}
+
 function normalizeSiteData(data = {}) {
+  const resume = data.resume || {};
+  const student = data.student || {};
+  const studentName = normalizeString(student.name, defaultSiteData.student.name);
+  const rollNumber = normalizeString(student.rollNo, defaultSiteData.student.rollNo);
   const merged = {
     ...defaultSiteData,
     ...data,
@@ -106,17 +137,25 @@ function normalizeSiteData(data = {}) {
     student: {
       ...defaultSiteData.student,
       ...(data.student || {}),
-      name: normalizeString((data.student || {}).name, defaultSiteData.student.name),
-      rollNo: normalizeString((data.student || {}).rollNo, defaultSiteData.student.rollNo),
+      name: studentName === 'YOUR STUDENT NAME' ? defaultSiteData.student.name : studentName,
+      rollNo: rollNumber === 'YOUR ROLL NUMBER' ? defaultSiteData.student.rollNo : rollNumber,
       section: normalizeString((data.student || {}).section, defaultSiteData.student.section),
       branch: normalizeString((data.student || {}).branch, defaultSiteData.student.branch),
       department: normalizeString((data.student || {}).department, defaultSiteData.student.department),
       courseId: normalizeString((data.student || {}).courseId, defaultSiteData.student.courseId),
       photo: normalizeStudentPhoto((data.student || {}).photo),
       aboutMe: normalizeString((data.student || {}).aboutMe, defaultSiteData.student.aboutMe),
-      leetcode: normalizeString((data.student || {}).leetcode, defaultSiteData.student.leetcode),
-      linkedin: normalizeString((data.student || {}).linkedin, defaultSiteData.student.linkedin),
-      github: normalizeString((data.student || {}).github, defaultSiteData.student.github),
+      leetcode: normalizeProfileUrl((data.student || {}).leetcode),
+      linkedin: normalizeProfileUrl((data.student || {}).linkedin),
+      github: normalizeProfileUrl((data.student || {}).github),
+    },
+    resume: {
+      ...defaultSiteData.resume,
+      ...resume,
+      email: normalizeString(resume.email, defaultSiteData.resume.email),
+      phone: normalizeString(resume.phone, defaultSiteData.resume.phone),
+      skills: Array.isArray(resume.skills) ? resume.skills : defaultSiteData.resume.skills,
+      interests: Array.isArray(resume.interests) ? resume.interests : defaultSiteData.resume.interests,
     },
     faculty: {
       ...defaultSiteData.faculty,
@@ -164,6 +203,7 @@ export function saveSiteData(nextData) {
     ...nextData,
     collegeLogo: normalizeLogoUrl(nextData.collegeLogo || siteData.collegeLogo),
     student: { ...(siteData.student || {}), ...(nextData.student || {}) },
+    resume: { ...(siteData.resume || {}), ...(nextData.resume || {}) },
     faculty: { ...(siteData.faculty || {}), ...(nextData.faculty || {}) },
     course: { ...(siteData.course || {}), ...(nextData.course || {}) },
   });

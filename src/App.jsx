@@ -9,6 +9,7 @@ import Experiments from './pages/Experiments';
 import ExperimentDetails from './pages/ExperimentDetails';
 import Tools from './pages/Tools';
 import Resources from './pages/Resources';
+import Attendance from './pages/Attendance';
 import NotFound from './pages/NotFound';
 import Admin from './pages/Admin';
 import { modules } from './data/modules';
@@ -77,6 +78,7 @@ function App() {
           <Route path="/experiments/:id" element={<ExperimentDetails />} />
           <Route path="/tools" element={<Tools />} />
           <Route path="/resources" element={<Resources />} />
+          <Route path="/attendance" element={<Attendance />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

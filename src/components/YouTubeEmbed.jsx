@@ -9,7 +9,7 @@ function YouTubeEmbed({ url, title }) {
   if (!videoId) {
     return (
       <div className="missing-video">
-        <a className="secondary-button small-button" href={url} target="_blank" rel="noreferrer">
+        <a className="secondary-button small-button" href={url} target="_blank" rel="noopener noreferrer">
           Watch related videos on YouTube
         </a>
       </div>
