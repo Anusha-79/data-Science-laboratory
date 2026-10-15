@@ -9,6 +9,7 @@ import Experiments from './pages/Experiments';
 import ExperimentDetails from './pages/ExperimentDetails';
 import Tools from './pages/Tools';
 import Resources from './pages/Resources';
+import Projects from './pages/Projects';
 import Attendance from './pages/Attendance';
 import NotFound from './pages/NotFound';
 import Admin from './pages/Admin';
@@ -20,11 +21,19 @@ import { resources } from './data/resources';
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [siteRefresh, setSiteRefresh] = useState(0);
+  const [experimentRefresh, setExperimentRefresh] = useState(0);
 
   useEffect(() => {
     const handleSiteDataUpdate = () => setSiteRefresh((value) => value + 1);
+    const handleExperimentUpdate = () => setExperimentRefresh((value) => value + 1);
+
     window.addEventListener('site-data-updated', handleSiteDataUpdate);
-    return () => window.removeEventListener('site-data-updated', handleSiteDataUpdate);
+    window.addEventListener('experiment-updated', handleExperimentUpdate);
+
+    return () => {
+      window.removeEventListener('site-data-updated', handleSiteDataUpdate);
+      window.removeEventListener('experiment-updated', handleExperimentUpdate);
+    };
   }, []);
 
   const searchResults = useMemo(() => {
@@ -64,14 +73,15 @@ function App() {
     });
 
     return resultMap.slice(0, 8);
-  }, [searchTerm]);
+  }, [searchTerm, experimentRefresh]);
 
   return (
-    <div className="app-shell" key={siteRefresh}>
+    <div className="app-shell" key={`${siteRefresh}-${experimentRefresh}`}>
       <Header searchTerm={searchTerm} onSearchChange={setSearchTerm} results={searchResults} />
       <main className="page-shell">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/projects" element={<Projects />} />
           <Route path="/modules" element={<Modules />} />
           <Route path="/modules/:id" element={<ModuleDetails />} />
           <Route path="/experiments" element={<Experiments />} />

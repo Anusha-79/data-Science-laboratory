@@ -1,4 +1,4 @@
-export const experiments = [
+const defaultExperiments = [
   {
     id: 1,
     number: 1,
@@ -355,6 +355,62 @@ export const experiments = [
   },
 ];
 
-experiments.forEach((experiment) => {
+defaultExperiments.forEach((experiment) => {
   experiment.code = experiment.code.replace(/^ {2}/gm, '');
 });
+
+const STORAGE_KEY = 'ds-lab-experiments';
+
+function loadExperiments() {
+  if (typeof window === 'undefined') {
+    return defaultExperiments.map((experiment) => ({ ...experiment }));
+  }
+
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) {
+      return defaultExperiments.map((experiment) => ({ ...experiment }));
+    }
+
+    const parsed = JSON.parse(saved);
+    if (!Array.isArray(parsed) || parsed.length === 0) {
+      return defaultExperiments.map((experiment) => ({ ...experiment }));
+    }
+
+    return parsed.map((experiment) => ({
+      ...defaultExperiments.find((defaultExperiment) => String(defaultExperiment.id) === String(experiment.id)) || {},
+      ...experiment,
+      procedure: Array.isArray(experiment.procedure) ? experiment.procedure : [],
+    }));
+  } catch {
+    return defaultExperiments.map((experiment) => ({ ...experiment }));
+  }
+}
+
+export let experiments = loadExperiments();
+
+export function getExperiments() {
+  return experiments;
+}
+
+export function saveExperiments(nextExperiments) {
+  const normalized = Array.isArray(nextExperiments) ? nextExperiments : defaultExperiments.map((experiment) => ({ ...experiment }));
+
+  experiments = normalized.map((experiment) => ({ ...experiment }));
+
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(experiments));
+  }
+
+  return experiments;
+}
+
+export function updateExperiment(updatedExperiment) {
+  const nextExperiments = experiments.map((experiment) => (
+    String(experiment.id) === String(updatedExperiment.id)
+      ? { ...experiment, ...updatedExperiment }
+      : experiment
+  ));
+
+  return saveExperiments(nextExperiments);
+}

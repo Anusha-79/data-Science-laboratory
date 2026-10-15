@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Editor from '@monaco-editor/react';
-import { Copy, Download, RotateCcw, Play, Trash2, Check } from 'lucide-react';
+import { Copy, Download, RotateCcw, Play, Trash2, Check, Github } from 'lucide-react';
 
 let pyodidePromise;
 
@@ -144,7 +144,10 @@ result
   return (
     <div className="code-editor-shell">
       <div className="section-heading-row">
-        <h3>Experiment Code</h3>
+        <div>
+          <h3>Code</h3>
+          <p className="code-editor-hint">Edit the example or write your own Python code, then run it.</p>
+        </div>
         <div className="button-row right-align">
           <button type="button" className="secondary-button small-button" onClick={handleCopy}>
             {copied ? <><Check size={15} /> Code copied!</> : <><Copy size={15} /> Copy Code</>}
@@ -182,6 +185,15 @@ result
         <button type="button" className="secondary-button small-button" onClick={() => { setOutput(''); setPlots([]); }}>
           <Trash2 size={15} /> Clear Output
         </button>
+        <a
+          href="https://github.com/Anusha-79/data-Science-laboratory/blob/main/src/data/experiments.js"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="secondary-button small-button"
+          aria-label={`View ${title} source code on GitHub`}
+        >
+          <Github size={15} /> View Code on GitHub
+        </a>
         {colabUrl && (
           <a href={colabUrl} target="_blank" rel="noopener noreferrer" className="secondary-button small-button">
             Open in Google Colab

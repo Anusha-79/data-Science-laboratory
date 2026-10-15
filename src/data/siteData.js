@@ -18,9 +18,10 @@ const defaultSiteData = {
     department: 'Data Science',
     courseId: 'DS-101',
     photo: defaultStudentPhoto,
-    aboutMe: 'I am a B.Tech Computer Science and Engineering student specializing in Data Science at Mohan Babu University. I am interested in Python development and software engineering and data-focused internship opportunities.',
+    aboutMe: 'I am Munga Anusha, a B.Tech Computer Science and Engineering student specializing in Data Science at Mohan Babu University. I am focused on improving my programming logic, building practical projects, and preparing for technical internships and placements in AI/ML, Python, and software development.',
     leetcode: '',
     linkedin: '',
+    instagram: '',
     github: '',
   },
   resume: {
@@ -147,6 +148,7 @@ function normalizeSiteData(data = {}) {
       aboutMe: normalizeString((data.student || {}).aboutMe, defaultSiteData.student.aboutMe),
       leetcode: normalizeProfileUrl((data.student || {}).leetcode),
       linkedin: normalizeProfileUrl((data.student || {}).linkedin),
+      instagram: normalizeProfileUrl((data.student || {}).instagram),
       github: normalizeProfileUrl((data.student || {}).github),
     },
     resume: {

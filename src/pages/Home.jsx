@@ -191,6 +191,7 @@ function Home() {
             </div>
           </div>
         </div>
+
       </section>
 
       {isEditorOpen && (
@@ -365,9 +366,14 @@ function Home() {
             </div>
           </div>
           {!isAboutMeEditing && (
-            <button type="button" className="secondary-button small-button" onClick={openAboutMeEditor}>
-            <Pencil size={15} /> Edit About Me
-            </button>
+            <div className="resume-inline-actions">
+              <button type="button" className="secondary-button small-button" onClick={() => document.getElementById('resume-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>
+                <FileText size={15} /> View Resume
+              </button>
+              <button type="button" className="secondary-button small-button" onClick={openAboutMeEditor}>
+                <Pencil size={15} /> Edit About Me
+              </button>
+            </div>
           )}
         </div>
         {isAboutMeEditing ? (
@@ -397,7 +403,7 @@ function Home() {
         )}
       </section>
 
-      <section className="resume-sheet" aria-labelledby="resume-heading">
+      <section id="resume-section" className="resume-sheet" aria-labelledby="resume-heading">
         <div className="resume-heading-row">
           <div>
             <p className="eyebrow">Academic Profile</p>

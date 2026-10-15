@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import CodeEditor from '../components/CodeEditor';
 import YouTubeEmbed from '../components/YouTubeEmbed';
-import { experiments } from '../data/experiments';
+import { experiments, updateExperiment } from '../data/experiments';
 
 function ExperimentDetails() {
   const { id } = useParams();
@@ -32,6 +32,7 @@ function ExperimentDetails() {
         aim: editedAim,
       };
       setExperiment(updatedExperiment);
+      updateExperiment(updatedExperiment);
       setIsEditingTitle(false);
       window.dispatchEvent(new CustomEvent('experiment-updated', { detail: updatedExperiment }));
     }

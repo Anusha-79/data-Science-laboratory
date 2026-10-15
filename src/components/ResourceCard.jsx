@@ -36,7 +36,7 @@ function ResourceCard({ resource, onReadBook }) {
         </button>
       ) : (
         <span className="secondary-button small-button resource-card-action">
-          {isExternal ? <><ExternalLink size={15} /> Visit Official Website</> : <><Download size={15} /> Download resource</>}
+          {isExternal ? <><ExternalLink size={15} /> Open website</> : <><Download size={15} /> Download resource</>}
         </span>
       )}
     </Card>

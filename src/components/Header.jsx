@@ -16,20 +16,30 @@ function Header({ searchTerm, onSearchChange, results }) {
   }, [theme]);
 
   const handleLogoError = (event) => {
-    if (event.currentTarget.src !== `${window.location.origin}/logo.png`) {
-      event.currentTarget.src = '/logo.png';
+    if (event.currentTarget.src !== `${window.location.origin}/student-photo.jpg`) {
+      event.currentTarget.src = '/student-photo.jpg';
     }
     event.currentTarget.onerror = null;
+  };
+
+  const handleProfilePhotoClick = (event) => {
+    const resumeSection = document.getElementById('resume-section');
+    if (resumeSection) {
+      event.preventDefault();
+      resumeSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+    window.location.href = '/#resume-section';
   };
 
   return (
     <header className="site-header">
       <div className="topbar-wrap">
-        <Link to="/" className="brand-area" aria-label="Go to home page">
+        <Link to="/" className="brand-area" aria-label="Go to home page" onClick={handleProfilePhotoClick}>
           <div className="brand-logo-wrap">
             <img
-              src={siteData.collegeLogo || '/logo.png'}
-              alt={`${siteData.collegeName} logo`}
+              src={siteData.student.photo || '/student-photo.jpg'}
+              alt={`${siteData.student.name} profile`}
               className="brand-logo"
               onError={handleLogoError}
             />

@@ -236,11 +236,6 @@ function Attendance() {
 
       <section className="attendance-dashboard" aria-label="Attendance summary">
         <article className="attendance-stat-card">
-          <span>Total lab sessions</span>
-          <strong>{summary.total}</strong>
-          <small>Recorded sessions</small>
-        </article>
-        <article className="attendance-stat-card">
           <span>Sessions attended</span>
           <strong>{summary.present}</strong>
           <small>Marked present</small>

@@ -27,7 +27,7 @@ function ToolCard({ tool, iconMap }) {
       </div>
 
       <span className="secondary-button tool-card-action">
-        Visit Official Website <ExternalLink size={15} aria-hidden="true" /> <ArrowUpRight size={15} aria-hidden="true" />
+        Open website <ExternalLink size={15} aria-hidden="true" /> <ArrowUpRight size={15} aria-hidden="true" />
       </span>
     </a>
   );
