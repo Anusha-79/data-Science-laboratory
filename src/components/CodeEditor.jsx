@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import Editor from '@monaco-editor/react';
 import { Copy, Download, RotateCcw, Play, Trash2, Check, Github } from 'lucide-react';
 
@@ -66,7 +66,7 @@ function CodeEditor({ initialCode, experimentNumber, title, colabUrl }) {
     try {
       await navigator.clipboard.writeText(code);
       setCopied(true);
-      setTimeout(() => setCopied(false), 1400);
+      window.setTimeout(() => setCopied(false), 1400);
     } catch (error) {
       setOutput('Copy failed. Please select the code manually.');
     }
@@ -82,6 +82,18 @@ function CodeEditor({ initialCode, experimentNumber, title, colabUrl }) {
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
+  };
+
+  const handleExportPdf = () => {
+    const pdf = new window.jspdf.jsPDF({ unit: 'pt', format: 'a4' });
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const margin = 28;
+    const lines = pdf.splitTextToSize(code || 'No code available', pageWidth - margin * 2);
+    pdf.setFont('courier', 'normal');
+    pdf.setFontSize(10);
+    pdf.text(`Python exercise: ${title}`, margin, 32);
+    pdf.text(lines, margin, 54);
+    pdf.save(`${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-code.pdf`);
   };
 
   const handleRun = async () => {
@@ -130,6 +142,7 @@ if "matplotlib" in user_code:
 result = json.dumps({"output": buf.getvalue(), "plots": plots})
 result
 `);
+
       const execution = JSON.parse(String(result));
       setOutput(execution.output);
       setPlots(execution.plots);
@@ -157,6 +170,9 @@ result
           </button>
           <button type="button" className="primary-button small-button" onClick={handleDownload}>
             <Download size={15} /> Download Code
+          </button>
+          <button type="button" className="secondary-button small-button" onClick={handleExportPdf}>
+            <Download size={15} /> Save as PDF
           </button>
         </div>
       </div>
@@ -205,7 +221,12 @@ result
         <h4>Output</h4>
         <pre>{output || 'No output yet.'}</pre>
         {plots.map((plot, index) => (
-          <img key={`${experimentNumber}-${index}`} className="execution-plot" src={`data:image/png;base64,${plot}`} alt={`${title} output plot ${index + 1}`} />
+          <img
+            key={`${experimentNumber}-${index}`}
+            className="execution-plot"
+            src={`data:image/png;base64,${plot}`}
+            alt={`${title} output plot ${index + 1}`}
+          />
         ))}
       </div>
     </div>
