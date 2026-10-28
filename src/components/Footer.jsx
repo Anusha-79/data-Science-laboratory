@@ -5,7 +5,6 @@ const quickLinks = [
   { to: '/', label: 'Home' },
   { to: '/modules', label: 'Modules' },
   { to: '/experiments', label: 'Experiments' },
-  { to: '/attendance', label: 'Attendance' },
   { to: '/tools', label: 'Tools' },
   { to: '/resources', label: 'Resources' },
 ];

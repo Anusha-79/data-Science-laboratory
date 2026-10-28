@@ -23,6 +23,10 @@ function FacultyCard() {
           <span>Designation</span>
           <strong>{siteData.faculty.designation}</strong>
         </div>
+        <div>
+          <span>Department</span>
+          <strong>{siteData.faculty.department}</strong>
+        </div>
       </div>
     </div>
   );
